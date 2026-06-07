@@ -1,8 +1,10 @@
 # System Patterns
 
+> 本文件只记录系统级架构、模块关系和全局约束。模块代码范围与导航见 `memory-bank/moduleMap.md`，复杂模块内部说明见 `docs/modules/*.md`。
+
 ## 架构概览
 
-用简图描述系统主要模块、数据流和外部依赖。
+用简图描述系统分层、主要模块、数据流和外部依赖。
 
 ```text
 {{CLIENT_OR_ENTRYPOINT}}
@@ -14,13 +16,46 @@
 {{DATA_OR_SERVICE_LAYER}}
 ```
 
-## 模块边界
+## 系统分层
 
-记录项目的主要模块，以及它们分别负责什么。
+记录每一层允许承担的职责，以及不应越过的边界。
 
-| 模块 | 路径 | 职责 |
-|------|------|------|
-| `{{MODULE_NAME}}` | `{{PATH}}` | `{{RESPONSIBILITY}}` |
+| 层级 | 职责 | 允许依赖 | 禁止事项 |
+|------|------|----------|----------|
+| `{{LAYER_NAME}}` | `{{RESPONSIBILITY}}` | `{{ALLOWED_DEPENDENCIES}}` | `{{FORBIDDEN_USAGE}}` |
+
+## 模块关系
+
+这里只记录模块之间的关系和约束，不重复维护模块内部文件。模块源码范围和入口统一记录在 `memory-bank/moduleMap.md`。
+
+| 上游模块 | 关系 | 下游模块 | 约束 |
+|----------|------|----------|------|
+| `{{UPSTREAM_MODULE}}` | `{{CALLS_OR_PUBLISHES}}` | `{{DOWNSTREAM_MODULE}}` | `{{DEPENDENCY_RULE}}` |
+
+## 依赖方向
+
+- `{{DEPENDENCY_DIRECTION_RULE_1}}`
+- `{{DEPENDENCY_DIRECTION_RULE_2}}`
+- `{{FORBIDDEN_DEPENDENCY_1}}`
+
+## 跨模块数据流
+
+```text
+{{ENTRY_MODULE}} -> {{PROCESSING_MODULE}} -> {{PERSISTENCE_OR_EXTERNAL_MODULE}} -> {{OUTPUT_MODULE}}
+```
+
+关键事件或调用链：
+
+- `{{CROSS_MODULE_FLOW_1}}`
+- `{{CROSS_MODULE_FLOW_2}}`
+
+## 公共基础设施
+
+记录被多个模块共同使用的能力，以及它们的主要维护边界。
+
+| 基础设施 | 路径或服务 | 使用方 | 约束 |
+|----------|------------|--------|------|
+| `{{SHARED_CAPABILITY}}` | `{{PATH_OR_SERVICE}}` | `{{CONSUMERS}}` | `{{USAGE_RULE}}` |
 
 ## 设计模式
 

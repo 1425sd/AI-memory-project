@@ -12,8 +12,9 @@
 .
 ├── AGENTS.md              # AI 协作规则
 ├── backlog/               # 任务文件
-├── docs/                  # 项目文档
-├── memory-bank/           # 项目长期记忆
+├── docs/                  # 项目与模块详细文档
+│   └── modules/           # 复杂模块的边界和关键文件
+├── memory-bank/           # 项目长期记忆与模块导航
 ├── prompts/               # 可复用提示词
 └── <your-project-files>    # 真实项目代码
 ```
@@ -25,10 +26,11 @@
 1. `memory-bank/projectbrief.md`
 2. `memory-bank/activeContext.md`
 3. `memory-bank/systemPatterns.md`
-4. `memory-bank/techContext.md`
-5. 当前 backlog 任务文件
+4. `memory-bank/moduleMap.md`
+5. `memory-bank/techContext.md`
+6. 当前 backlog 任务文件
 
-不要一开始读取整个项目。只在需要时读取相关代码文件。
+先通过 `memory-bank/moduleMap.md` 判断任务涉及哪些模块，再按需读取对应的 `docs/modules/*.md` 和代码文件。不要一开始读取整个项目。
 
 如果当前没有 backlog 任务文件，先基于 `backlog/TASK-001-template.md` 创建一个任务文件，并让用户确认任务范围。
 
@@ -38,6 +40,8 @@ AI 必须先输出 `Implementation Plan`，包含：
 
 - 准备修改哪些文件
 - 为什么要修改这些文件
+- 涉及哪些模块及关键入口
+- 是否存在跨模块影响
 - 每一步准备怎么做
 - 可能的风险
 - 准备运行哪些测试、检查或构建命令
@@ -52,6 +56,10 @@ AI 必须先输出 `Implementation Plan`，包含：
 - 涉及 API 变化时，必须更新 `docs/api.md`
 - 涉及本地存储、缓存或客户端平台行为变化时，必须更新对应文档，例如 `docs/mobile.md`
 - 涉及架构变化时，必须更新 `memory-bank/systemPatterns.md`
+- 新增、删除、移动模块或改变模块源码范围时，必须更新 `memory-bank/moduleMap.md`
+- 改变复杂模块的入口、公开接口、依赖、关键文件或测试位置时，必须更新对应的 `docs/modules/*.md`
+- 模块地图使用目录或 glob 描述代码范围，只列关键入口文件，不维护容易过期的全量文件清单
+- 一个共享文件涉及多个模块时，必须在模块地图中写明主要维护模块和使用方
 - 新增全局状态、Provider、中间件、服务入口或后台任务时，必须确认是否需要在应用入口注册
 - 遇到用户已有改动时，不要回滚；先理解并在其基础上工作
 
@@ -63,7 +71,8 @@ AI 必须更新：
 2. 当前任务文件的 `Files Changed`
 3. `memory-bank/progress.md`
 4. 如有架构变化，更新 `memory-bank/systemPatterns.md`
-5. 如有 API、数据库、移动端、部署等变化，更新 `docs/` 下对应文档
+5. 如有模块范围、入口或依赖变化，更新 `memory-bank/moduleMap.md` 和对应的 `docs/modules/*.md`
+6. 如有 API、数据库、移动端、部署等变化，更新 `docs/` 下对应文档
 
 ## 常用命令
 
